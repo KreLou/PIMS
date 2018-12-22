@@ -1,0 +1,59 @@
+[
+  {
+    "table": "user",
+    "columns": [
+      {
+        "name": "id",
+        "type": "int(32)",
+        "default": "",
+        "special": "auto_increment primary key"
+      }, {
+        "name": "username",
+        "type": "varchar(25)",
+        "default": "not null",
+        "special": ""
+      }, {
+        "name": "firstname",
+        "type": "varchar(50)",
+        "default": "not null",
+        "special": ""
+      }, {
+        "name": "lastname",
+        "type": "varchar(50)",
+        "default": "not null",
+        "special": ""
+      }, {
+        "name": "company",
+        "type": "varchar(100)",
+        "default": "not null",
+        "special": ""
+      }, {
+        "name": "department",
+        "type": "varchar(60)",
+        "default": "not null",
+        "special": ""
+      }
+    ]
+  },
+  {
+    "table": "package",
+    "columns": [
+      {
+        "name": "id",
+        "type": "int(32)",
+        "default": "not null",
+        "special": "primary key auto_increment"
+      }, {
+        "name": "address_id",
+        "type": "int(32)",
+        "default": "not null",
+        "special": ""
+      }, {
+        "name": "checkin_at",
+        "type": "timestamp",
+        "default": "default current_timestamp",
+        "special": ""
+      }
+    ]
+  }
+]

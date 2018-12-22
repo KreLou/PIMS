@@ -1,16 +1,15 @@
-import sqlite3
+import mysql.connector
 import click
+from API.database import db_check
 from flask import current_app, g
 from flask.cli import with_appcontext
+
 
 def get_db():
     #g is the current request, so reuse a sql-connection in one request
     if 'db' not in g:
-        g.db = sqlite3.connect(
-            current_app.config['database'],
-            detect_types=sqlite3.PARSE_DECLTYPES
+        g.db = mysql.connector.connect(
         )
-        g.db.row_factory = sqlite3.Row
     return g.db
 
 def close_db(e=None):
@@ -20,9 +19,18 @@ def close_db(e=None):
         db.close()
 
 def init_db():
-    db = get_db()
-    with current_app.open_resource('schema.sql') as f:
-        db.executescript(f.read().decode('utf-8'))
+    print('init-db')
+    checker = db_check.DBChecker(get_db())
+    checker.init()
+
+def init_db_OLD():
+    try:
+        db = get_db()
+        with current_app.open_resource('schema.sql') as f:
+            cursor = db.cursor()
+            cursor.execute(f.read().decode('utf-8'))
+    except mysql.connector.errors.ProgrammingError:
+        print('MySQL-Error: Table Structure already exists')
 
 def init_app(app):
     app.teardown_appcontext(close_db)
