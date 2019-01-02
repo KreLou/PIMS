@@ -1,0 +1,48 @@
+# /
+##get
+### Parameters
+None
+
+### Return Values
+Return all available Packages
+Not all information are given, sometimes only the id
+
+## post
+### Parameters
+- company: string           Companys Name
+- firstname: string         Firstname of contact
+- lastname: string          Lastname of contact
+- street: string            Name of street
+- housenr: string           House-Number, as string for additional information like chars
+- zip: string               ZIP-Code
+- city: string              Name of the city
+- country: string           Name of country
+- state: string             Additional name of state
+
+### Return Values
+Return this Address with all fields
+
+# /<id>
+##get
+###Parameters
+None
+
+###Return Value
+Return the Address from this id
+Return 406 if ID is not valid
+
+##Put
+Not updating the existing id, create new address with new id
+### Parameters
+- company: string           Companys Name
+- firstname: string         Firstname of contact
+- lastname: string          Lastname of contact
+- street: string            Name of street
+- housenr: string           House-Number, as string for additional information like chars
+- zip: string               ZIP-Code
+- city: string              Name of the city
+- country: string           Name of country
+- state: string             Additional name of state
+
+### Return Values
+Return this new Address with all fields

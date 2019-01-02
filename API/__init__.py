@@ -1,6 +1,6 @@
 from flask import Flask
 from API import db, values
-from API.controller import user, package
+from API.controller import user, package, address
 
 
 def create_app():
@@ -14,4 +14,5 @@ def create_app():
     app.register_blueprint(values.bp)
     app.register_blueprint(user.bp)
     app.register_blueprint(package.bp)
+    app.register_blueprint(address.bp)
     return app

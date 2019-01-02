@@ -1,4 +1,48 @@
+from flask import Blueprint, request, jsonify, Response
 from API.db import get_db
+
+
+bp = Blueprint('address', __name__, url_prefix='/address')
+
+@bp.route('/', methods=('GET', 'POST'))
+def getAll():
+    db = get_db()
+    cur = db.cursor()
+    if request.method == 'GET':
+        cur.execute('select id, company, firstname, lastname, street, housenr, zip, city, country, state from address;')
+        rows = cur.fetchall()
+        json_data = []
+        for row in rows:
+            json_data.append({
+                'id': row[0],
+                'company': row[1],
+                'firstname': row[2],
+                'lastname': row[3],
+                'street': row[4],
+                'housenr': row[5],
+                'zip': row[6],
+                'city': row[7],
+                'country': row[8],
+                'state': row[9]
+            })
+        return jsonify(json_data)
+    if request.method == 'POST':
+        """Return the Address, which is insertet from the request body"""
+        return jsonify(getAddressById(insertOrUpdateAddress(request.get_json())))
+
+@bp.route('/<id>', methods=('GET', 'PUT'))
+def details(id):
+    try:
+        id = int(id)
+    except ValueError:
+        return Response('No valid id "{}"'.format(id), status=406)
+    db = get_db()
+    cur = db.cursor()
+    if request.method == 'GET':
+        return jsonify(getAddressById(id))
+    if request.method == 'PUT':
+        """Return the Address, which is insertet from the request body"""
+        return jsonify(getAddressById(insertOrUpdateAddress(request.get_json())))
 
 
 def getAddressById(id):
