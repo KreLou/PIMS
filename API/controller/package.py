@@ -10,6 +10,15 @@ insert_package = ('insert into package'
                   '(tracking,address_id, creator_id, receiver_id, confidential)'
                   'values (%(tracking)s, %(address_id)s, %(creator_id)s, %(receiver_id)s, %(confidential)s );')
 
+update_package = ('update package set '
+                  'address_id=%(address_id)s, '
+                  'receiver_id=%(receiver_id)s, '
+                  'isnotified=%(isnotified)s, '
+                  'pickedup_at=%(pickedup_at)s, '
+                  'confidential=%(confidential)s '
+                  'where id=%(id)s;')
+
+
 @bp.route('/', methods=('GET', 'POST'))
 def getAllPackages():
     db = get_db()
@@ -62,9 +71,47 @@ def details(id):
         return jsonify(getPackageById(id))
     if request.method == 'PUT':
         """Handling Package Update"""
-        db =get_db()
+        db = get_db()
         cur = db.cursor()
-        
+        body = request.get_json()
+        insertPackage = {
+            'id': id,
+            'address_id': 0,
+            'checkin': None,
+            'creator_id': 0,
+            'receiver_id': 0,
+            'isnotified': False,
+            'pickedup_at': None,
+            'confidential': False,
+            'tracking': ''
+        }
+
+        #Replaces all basic-fields
+        #Trackingcode stays forever
+        translator = ['checkin', 'creator_id', 'isnotified', 'pickedup_at', 'confidential', 'tracking']
+        for key in translator:
+            if key in body:
+                insertPackage[key] = body[key]
+
+
+
+        if 'address' in body and body['address'] is not None:
+            insertPackage['address_id'] = insertOrUpdateAddress(body['address'])
+
+
+        #Error Preventing
+        if 'address_id' not in body:
+            body['address_id'] = 0
+
+        print(update_package)
+        print(insertPackage)
+
+        #Update in Database
+        cur.execute(update_package, insertPackage)
+        db.commit()
+        return jsonify(getPackageById(body['id']))
+
+
 
 
 def getPackageById(id):

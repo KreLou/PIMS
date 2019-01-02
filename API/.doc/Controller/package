@@ -1,0 +1,14 @@
+# /
+##get
+### Parameters
+None
+
+### Return Values
+Return all available Packages
+Not all information are given, sometimes only the id
+
+## post
+### Parameters
+* tracking: string      Tracking Number from deliverer
+- receiver_id: number   ID from Receiver
+-

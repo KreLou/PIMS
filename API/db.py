@@ -9,6 +9,12 @@ def get_db():
     #g is the current request, so reuse a sql-connection in one request
     if 'db' not in g:
         g.db = mysql.connector.connect(
+            host='localhost',
+            database='pims',
+            user='pimsuser',
+            passwd='pimspassword',
+            charset='utf8',
+            auth_plugin='mysql_native_password'
         )
     return g.db
 
