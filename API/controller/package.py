@@ -4,6 +4,7 @@ from API.controller import user
 from API.controller.address import getAddressById, insertOrUpdateAddress
 
 bp = Blueprint('package', __name__, url_prefix='/package')
+requiredFields = ['tracking']
 
 #Strings
 insert_package = ('insert into package'
@@ -67,8 +68,11 @@ def details(id):
         id = int(id)
     except ValueError:
         return Response('No valid Id', status=406)
+
     if request.method == 'GET':
+        """Return the requested Package by ID"""
         return jsonify(getPackageById(id))
+
     if request.method == 'PUT':
         """Handling Package Update"""
         db = get_db()
@@ -98,6 +102,8 @@ def details(id):
         if 'address' in body and body['address'] is not None:
             insertPackage['address_id'] = insertOrUpdateAddress(body['address'])
 
+        if 'receiver' in body and body['receiver'] is not None and body['receiver'] > 0:
+            insertPackage['receiver_id'] = body['receiver']
 
         #Error Preventing
         if 'address_id' not in body:
