@@ -1,0 +1,49 @@
+#toolbar {
+  background-color: #0982a1;
+  color: white;
+}
+
+
+#toolbar mat-toolbar-row p {
+  font-weight: bold;
+  letter-spacing: 0.35em;
+  font-size: 1.5em;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.icon  {
+  padding: 0 14px;
+  cursor: pointer;
+  transition: transform 0.7s;
+}
+.icon:hover {
+  transform: scale(1.4);
+}
+
+.searchBox {
+  height: 2em;
+  border-radius: 5px;
+}
+
+#viewport {
+  height: 100vh;
+}
+#content {
+  margin: 8px;
+}
+
+#footer {
+  font-size: 1.2em;
+  padding: 0.2em;
+  width: 100%;
+  background-color: #b4b4b4;
+  color: #005c64;
+}
+
+#footer a{
+  text-decoration: none;
+  color: inherit;
+}
